@@ -1,85 +1,113 @@
 # vitals-doctor
 
-Lighthouse tells you a score. **vitals-doctor tells you what to change.**
+Lighthouse tells you a score. **vitals-doctor tells you what to change**: Core Web Vitals plus a short, ranked list of fixes for Next.js and React.
 
-It measures a page with Lighthouse (local headless Chrome, or Google's PageSpeed Insights API), prints LCP / INP / CLS / TTFB, and turns the raw audits into a short, prioritised list of fixes. Each fix names the cause it found (the LCP element and its slowest phase, the exact blocking file, the element that shifted and why) and says how to fix it in Next.js / React.
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?logo=typescript&logoColor=white)](tsconfig.json)
+[![Tests](https://img.shields.io/badge/tests-19%20passing-brightgreen)](test)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](package.json)
 
-```sh
-npx vitals-doctor https://example.com
-```
-
-## Why
-
-Most Core Web Vitals work I've done comes down to the same handful of causes: a lazy-loaded or oversized hero image, a sync tag in `<head>`, images without dimensions, a web font swap, one long task from a third-party script. Lighthouse reports all of them, but spread over 40+ audits, with generic advice. This tool reads those audits, works out which cause is behind each failing metric, and orders the fixes by estimated savings against the metric that is actually failing.
-
-## Sample output
-
-Run against [`examples/before`](examples/before) (mobile profile, simulated throttling):
+Real output for the [`examples/before`](examples/before) app (recorded Lighthouse run in `test/fixtures/before.lhr.json`, mobile profile):
 
 ```text
-$ vitals-doctor http://localhost:3101 --budget
+$ node dist/cli.js --from test/fixtures/before.lhr.json --budget
 vitals-doctor  http://localhost:3101/
 Lighthouse 13.6.0 · mobile · performance score 60
 
-  LCP               9,603 ms  poor       lab
+  LCP               9,604 ms  poor       lab
   CLS                  0.246  needs work lab
   TTFB                452 ms  good       lab
-  FCP               2,304 ms  needs work lab
-  TBT (INP proxy)      29 ms  good       lab
+  FCP               2,305 ms  needs work lab
+  TBT (INP proxy)      30 ms  good       lab
 
 7 fixes, most impactful first
 
 1. [high] LCP image is lazy-loaded
-   est. savings: LCP -8,435 ms
+   est. savings: LCP -8,065 ms
    · Failed: fetchpriority=high should be applied
    · Failed: LCP resources shouldn’t use loading=lazy
-   Fix: remove `loading="lazy"` from the LCP image; use `<Image preload fetchPriority="high" />`
-   in Next 16 or `priority` in Next 13–15; on a plain `<img>` add `fetchPriority="high"`.
+   Fix: remove `loading="lazy"` from the LCP image; use `<Image preload fetchPriority="high" />` in Next 16 or `priority` in Next 13–15; on a plain `<img>` add `fetchPriority="high"`.
 
-2. [high] LCP is 9,603 ms: the image element spends most time in "Resource load delay"
-   est. savings: LCP -7,103 ms
+2. [high] LCP is 9,604 ms: the image element spends most time in "Resource load delay"
+   est. savings: LCP -7,104 ms
    · Element: body > main > div.hero > img
    · HTML: <img src="/hero.jpg" alt="Loaves cooling on a rack" loading="lazy">
    · Time to first byte: 452 ms
-   · Resource load delay: 8,435 ms
-   · Resource load duration: 123 ms
-   · Element render delay: 593 ms
-   Fix: The browser found the LCP image late. Render it in the server HTML (not after
-   hydration or from CSS), drop `loading="lazy"`, and preload it.
+   · Resource load delay: 8,065 ms
+   · Resource load duration: 195 ms
+   · Element render delay: 892 ms
+   Fix: The browser found the LCP image late. Render it in the server HTML (not after hydration or from CSS), drop `loading="lazy"`, and preload it: `<Image preload fetchPriority="high" />` in Next 16 (`priority` in Next 13–15).
 
 3. [high] Layout shifts add up to CLS 0.246
    est. savings: CLS -0.246
    · Unsized image element: body > main > div.hero > img
    · Web font: /fonts/inter-latin-400-normal.woff2, /fonts/inter-latin-700-normal.woff2
-   Fix: Give every image `width` and `height` (a static `import img from './x.jpg'` with
-   `next/image` does this) ... Load fonts with `next/font`; it preloads them and adds a
-   size-adjusted fallback so the swap doesn't move text.
+   Fix: Give every image `width` and `height` (a static `import img from './x.jpg'` with `next/image` does this), or use `fill` inside a box with a fixed `aspect-ratio`. Load fonts with `next/font`; it preloads them and adds a size-adjusted fallback so the swap doesn't move text.
 
 4. [high] 2 render-blocking requests delay first paint
    est. savings: FCP -1,700 ms, LCP -1,700 ms
    · /vendor/widget.js (302 ms)
    · /_next/static/chunks/162k1vv3w9phm.css (152 ms)
-   Fix: Move synchronous `<script>` tags to `next/script` with `strategy="afterInteractive"`
-   (or `"lazyOnload"` for widgets/analytics) ...
+   Fix: Move synchronous `<script>` tags to `next/script` with `strategy="afterInteractive"` (or `"lazyOnload"` for widgets/analytics); plain `<script>` in `<head>` blocks first paint. Trim render-blocking CSS: import global CSS once in the root layout, move route-specific styles into CSS Modules for that route, replace `@import`ed font CSS with `next/font`, or let Next inline it with `experimental.inlineCss: true`.
 
-5. [medium] Images are 1,410 KiB heavier than they need to be
-   · /hero.jpg: 1,458 KiB, could save 1,410 KiB
-   Fix: Use `next/image` (AVIF/WebP, resized per device) and give it a `sizes` ...
+5. [medium] Images are 1,442 KiB heavier than they need to be
+   est. savings: LCP -7,200 ms
+   · /hero.jpg: 1,458 KiB, could save 1,442 KiB
+   Fix: Use `next/image` (AVIF/WebP, resized per device) and give it a `sizes` that matches the layout, e.g. `sizes="(max-width: 768px) 100vw, 50vw"`. Without `sizes` a fill/responsive image downloads the largest candidate.
 
-6. [low] JavaScript takes 1,525 ms to execute          (trimmed)
-7. [low] 1 image has no width/height                    (trimmed)
+6. [low] JavaScript takes 1,522 ms to execute
+   est. savings: TBT -50 ms
+   · /vendor/widget.js: 1,399 ms scripting
+   Fix: Ship less client JS: move components without interactivity out of `"use client"`, `next/dynamic` anything below the fold, and check `@next/bundle-analyzer` for heavy libraries (date, chart and icon packages are common).
+
+7. [low] 1 image has no width/height
+   · body > main > div.hero > img: /hero.jpg
+   Fix: Set `width`/`height` (or CSS `aspect-ratio`) on every `<img>`. With `next/image`, a static import fills them in; for remote images pass them explicitly or use `fill` in a sized parent.
 
 Budget failed:
-  LCP 9,603 ms > budget 2,500 ms
+  LCP 9,604 ms > budget 2,500 ms
   CLS 0.246 > budget 0.100
 ```
 
 Exit code `1` because the budget failed.
 
+## Features
+
+- **Measures** with Lighthouse in local headless Chrome, or with Google's PageSpeed Insights API (adds real-user CrUX data, including real INP).
+- **Explains the cause**, not just the metric: the LCP element and its slowest phase, the exact blocking file, the element that shifted and why.
+- **Ranks fixes** by estimated savings against the metric that is actually failing.
+- **Next.js / React fixes** for each finding (`next/image`, `next/script`, `next/font`, Server Components, `next/dynamic`).
+- **Budgets** for CI: `--budget lcp=2500,cls=0.1,inp=200` exits `1` when over.
+- **JSON output** (`--json`) and offline diagnosis of an existing Lighthouse report (`--from`).
+
+## Why
+
+Most Core Web Vitals work I've done comes down to the same handful of causes: a lazy-loaded or oversized hero image, a sync tag in `<head>`, images without dimensions, a web font swap, one long task from a third-party script. Lighthouse reports all of them, but spread over 40+ audits, with generic advice. This tool reads those audits, works out which cause is behind each failing metric, and orders the fixes by estimated savings against the metric that is actually failing.
+
+## Quick start
+
+Not on npm yet, so build it from source (Node 20+):
+
+```sh
+git clone https://github.com/shubham-bodiwal/vitals-doctor.git
+cd vitals-doctor
+pnpm install
+pnpm build
+node dist/cli.js --from test/fixtures/before.lhr.json   # no Chrome or network needed
+```
+
+That prints the report shown above. To measure a live page you need Chrome or Chromium installed (or `CHROME_PATH` pointing at one):
+
+```sh
+node dist/cli.js https://example.com
+```
+
+`pnpm link --global` puts a `vitals-doctor` command on your `PATH`.
+
 ## Usage
 
 ```sh
-npx vitals-doctor <url> [options]
+vitals-doctor <url> [options]
 ```
 
 | Option | What it does |
@@ -99,12 +127,27 @@ Local runs need Chrome or Chromium (`CHROME_PATH` to point at a specific binary)
 
 ```sh
 # against a preview deployment or a local `next start`
-npx vitals-doctor "$PREVIEW_URL" --budget lcp=2500,cls=0.1,inp=200 --json > vitals.json
+vitals-doctor "$PREVIEW_URL" --budget lcp=2500,cls=0.1,inp=200 --json > vitals.json
 ```
 
 Lab numbers move a few percent run to run; give budgets some headroom.
 
-## Rules
+## How it works
+
+```mermaid
+flowchart LR
+  U[URL] --> M{measure.ts}
+  M -- "local" --> L[Lighthouse + headless Chrome]
+  M -- "--psi" --> P[PageSpeed Insights API<br/>+ CrUX field data]
+  F["--from report.json"] --> R
+  L --> R[rules.ts<br/>12 rules over Lighthouse audits]
+  P --> R
+  R --> S[rank by impact and<br/>savings vs failing metric]
+  S --> O[format.ts: terminal / --json]
+  S --> B[budget check, exit code]
+```
+
+### Rules
 
 Each rule reads one or more Lighthouse 13 audits and produces at most one finding.
 
@@ -151,28 +194,37 @@ Two honest notes. Before's TBT is already low because the sync script runs *befo
 
 The tool still reports three findings on `after`: blocking Next.js CSS (~150 ms; `experimental.inlineCss` would remove it), an LCP priority hint (low impact because LCP is already good) and the widget's total execution time (low, since it now yields). That's intended: it tells you what's left, ranked so you can stop when the remaining items aren't worth it.
 
-Try it:
+Try it (from the repo root, after `pnpm install && pnpm build`):
 
 ```sh
 cd examples/before && pnpm install && pnpm build && pnpm start   # :3101
 cd examples/after  && pnpm install && pnpm build && pnpm start   # :3102
-npx vitals-doctor http://localhost:3101
-npx vitals-doctor http://localhost:3102
+node dist/cli.js http://localhost:3101
+node dist/cli.js http://localhost:3102
 ```
 
-## Development
+## Tests
 
 ```sh
-pnpm install
-pnpm test        # vitest, no network: rules run on recorded Lighthouse JSON
-pnpm build       # tsc -> dist/
-node dist/cli.js --from test/fixtures/before.lhr.json
+pnpm test        # 19 tests (Vitest), no network
+pnpm lint && pnpm typecheck
 ```
 
 `test/fixtures/*.lhr.json` are real Lighthouse 13 runs of the two examples, trimmed to the audits the rules read. Rules that the examples can't trigger (third parties, slow server, text LCP, font-display) are tested with small synthetic audit objects.
 
 Layout: `src/measure.ts` (Lighthouse / PSI), `src/rules.ts` (rules, priority, budgets), `src/format.ts` (terminal output), `src/cli.ts`.
 
+## Roadmap
+
+- Publish to npm so `npx vitals-doctor` works.
+- Median of N runs (`--runs 3`) to smooth lab noise.
+- Markdown output for pull-request comments.
+- More rules: `bfcache` blockers, oversized DOM, preconnect hints.
+
+## Contributing
+
+Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup and checks, and the [Code of Conduct](CODE_OF_CONDUCT.md). Security issues: [SECURITY.md](SECURITY.md). Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+
 ## License
 
-MIT. The Inter font files in `examples/` are under the SIL Open Font License ([examples/FONT-LICENSE-OFL.txt](examples/FONT-LICENSE-OFL.txt)).
+[MIT](LICENSE) © Shubham Bhodiwal. The Inter font files in `examples/` are under the SIL Open Font License ([examples/FONT-LICENSE-OFL.txt](examples/FONT-LICENSE-OFL.txt)).
