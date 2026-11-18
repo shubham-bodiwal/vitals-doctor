@@ -3,16 +3,31 @@
   "version": "0.1.0",
   "description": "Measure a page's Core Web Vitals with Lighthouse and get specific, prioritised fixes for Next.js/React.",
   "type": "module",
-  "bin": { "vitals-doctor": "dist/cli.js" },
-  "files": ["dist"],
-  "engines": { "node": ">=20" },
+  "bin": {
+    "vitals-doctor": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "pnpm build"
   },
-  "keywords": ["core-web-vitals", "lighthouse", "lcp", "inp", "cls", "nextjs", "performance", "cli"],
+  "keywords": [
+    "core-web-vitals",
+    "lighthouse",
+    "lcp",
+    "inp",
+    "cls",
+    "nextjs",
+    "performance",
+    "cli"
+  ],
   "license": "MIT",
   "author": "Shubham Bhodiwal",
   "repository": "github:shubham-bodiwal/vitals-doctor",
@@ -24,5 +39,6 @@
     "@types/node": "^22.0.0",
     "typescript": "^5.9.0",
     "vitest": "^4.0.0"
-  }
+  },
+  "homepage": "https://github.com/shubham-bodiwal/vitals-doctor#readme"
 }
