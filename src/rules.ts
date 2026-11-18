@@ -52,7 +52,10 @@ export function rate(id: MetricId, value: number): Rating {
 type Audit = LHR["audits"][string];
 const audit = (lhr: LHR, id: string): Audit | undefined => lhr.audits[id];
 const failed = (a?: Audit) => !!a && a.score !== null && a.score < 0.9 && a.scoreDisplayMode !== "notApplicable";
-const items = (a?: Audit): any[] => ((a?.details as any)?.items as any[]) ?? [];
+/** Audit `details` are loosely typed JSON that differs per audit, so rows are read defensively. */
+// biome-ignore lint/suspicious/noExplicitAny: shape varies per Lighthouse audit
+type Item = any;
+const items = (a?: Audit): Item[] => ((a?.details as { items?: Item[] } | undefined)?.items) ?? [];
 const ms = (n: number) => `${Math.round(n).toLocaleString("en-US")} ms`;
 const kb = (n: number) => `${Math.round(n / 1024).toLocaleString("en-US")} KiB`;
 const shortUrl = (u: string, base: string) => {
@@ -65,7 +68,7 @@ const shortUrl = (u: string, base: string) => {
   }
 };
 /** The list-type insights hold a checklist/table plus the node; pick the first item of a given type. */
-const part = (a: Audit | undefined, type: string): any => items(a).find((i) => i?.type === type);
+const part = (a: Audit | undefined, type: string): Item => items(a).find((i) => i?.type === type);
 
 function lcpNode(lhr: LHR): { selector: string; snippet: string; isImage: boolean } | undefined {
   const node = part(audit(lhr, "lcp-breakdown-insight"), "node") ?? part(audit(lhr, "lcp-discovery-insight"), "node");
@@ -174,7 +177,7 @@ const clsCulprits: Rule = (lhr) => {
   const cls = audit(lhr, "cumulative-layout-shift")?.numericValue ?? 0;
   if (cls < 0.05) return null;
   // First row is "Total"; the rest are shifted elements with cause sub-items.
-  const rows = (part(audit(lhr, "cls-culprits-insight"), "table")?.items ?? []).filter((r: any) => r.node?.type === "node");
+  const rows = (part(audit(lhr, "cls-culprits-insight"), "table")?.items ?? []).filter((r: Item) => r.node?.type === "node");
   const causes = new Map<string, Set<string>>();
   for (const r of rows) {
     const subs = r.subItems?.items ?? [];
@@ -277,7 +280,7 @@ const thirdParties: Rule = (lhr) => {
   const list = items(audit(lhr, "third-parties-insight")).filter((i) => i.mainThreadTime >= 50 || i.transferSize >= 50 * 1024);
   if (!list.length) return null;
   const mt = list.reduce((s, i) => s + (i.mainThreadTime ?? 0), 0);
-  const entity = (e: any) => (typeof e === "string" ? e : e?.text ?? e?.name ?? "unknown");
+  const entity = (e: Item) => (typeof e === "string" ? e : e?.text ?? e?.name ?? "unknown");
   return {
     id: "third-parties",
     title: `Third-party code: ${ms(mt)} main-thread time across ${list.length} provider${list.length > 1 ? "s" : ""}`,

@@ -1,5 +1,5 @@
 import { styleText } from "node:util";
-import { fmt, type Report, type Rating } from "./rules.js";
+import { fmt, type MetricId, type Report, type Rating } from "./rules.js";
 
 const RATING: Record<Rating, [string, Parameters<typeof styleText>[0]]> = {
   good: ["good", "green"],
@@ -30,7 +30,7 @@ export function formatText(r: Report): string {
   r.findings.forEach((f, i) => {
     const save = Object.entries(f.savings)
       .filter(([, v]) => v && v > 0)
-      .map(([k, v]) => `${k} -${fmt(k as any, v!)}`)
+      .map(([k, v]) => `${k} -${fmt(k as MetricId, v!)}`)
       .join(", ");
     out.push("");
     out.push(`${c("bold", `${i + 1}.`)} ${c(IMPACT[f.impact], `[${f.impact}]`)} ${c("bold", f.title)}`);

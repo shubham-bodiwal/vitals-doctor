@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { diagnose, parseBudget, checkBudget, rate, RULES } from "../src/rules.js";
+import type { Result as LHR } from "lighthouse";
+import { diagnose, parseBudget, checkBudget, rate, RULES, type Finding } from "../src/rules.js";
 
 // Real Lighthouse 13 runs of examples/before and examples/after, trimmed to the audits the rules read.
 const load = (name: string) => JSON.parse(readFileSync(new URL(`./fixtures/${name}.lhr.json`, import.meta.url), "utf8"));
@@ -74,7 +75,7 @@ describe("after example (fixed)", () => {
 });
 
 describe("rules on synthetic audits", () => {
-  const lhr = (audits: Record<string, unknown>) => ({ finalDisplayedUrl: "https://shop.example/", audits }) as any;
+  const lhr = (audits: Record<string, unknown>) => ({ finalDisplayedUrl: "https://shop.example/", audits }) as unknown as LHR;
 
   it("long tasks: groups by script and reports TBT", () => {
     const f = RULES["long-tasks"](lhr({
@@ -84,7 +85,7 @@ describe("rules on synthetic audits", () => {
         { url: "https://cdn.vendor.example/tag.js", duration: 450 },
         { url: "https://shop.example/_next/static/chunks/app.js", duration: 120 },
       ] } },
-    })) as any;
+    })) as Finding;
     expect(f.impact).toBe("high");
     expect(f.evidence[0]).toBe("cdn.vendor.example/tag.js: longest task 450 ms");
     expect(f.evidence).toHaveLength(2);
@@ -97,7 +98,7 @@ describe("rules on synthetic audits", () => {
         { entity: "Google Tag Manager", transferSize: 120_000, mainThreadTime: 310 },
         { entity: "Tiny pixel", transferSize: 400, mainThreadTime: 2 },
       ] } },
-    })) as any;
+    })) as Finding;
     expect(f.evidence).toHaveLength(1);
     expect(f.evidence[0]).toContain("Google Tag Manager");
     expect(f.impact).toBe("high");
@@ -109,14 +110,14 @@ describe("rules on synthetic audits", () => {
       "largest-contentful-paint": { numericValue: 5000 },
       metrics: { details: { items: [{ timeToFirstByte: 400, lcpLoadDelay: 0, lcpLoadDuration: 0 }] } },
       "lcp-breakdown-insight": { details: { items: [{ type: "node", selector: "h1", snippet: "<h1 class=\"title\">" }] } },
-    })) as any;
+    })) as Finding;
     expect(f.title).toContain("text element");
     expect(f.title).toContain("Element render delay");
     expect(f.fix).toContain("next/font");
   });
 
   it("slow server response", () => {
-    const f = RULES["server-response"](lhr({ "server-response-time": { numericValue: 2100 } })) as any;
+    const f = RULES["server-response"](lhr({ "server-response-time": { numericValue: 2100 } })) as Finding;
     expect(f.impact).toBe("high");
     expect(f.fix).toContain("revalidate");
     expect(RULES["server-response"](lhr({ "server-response-time": { numericValue: 120 } }))).toBeNull();
@@ -125,7 +126,7 @@ describe("rules on synthetic audits", () => {
   it("font-display: only fonts that actually hid text", () => {
     const f = RULES["font-display"](lhr({
       "font-display-insight": { details: { items: [{ url: "https://shop.example/f.woff2", wastedMs: 640 }, { url: "https://shop.example/g.woff2", wastedMs: 0 }] } },
-    })) as any;
+    })) as Finding;
     expect(f.evidence).toEqual(["/f.woff2: text invisible for up to 640 ms"]);
   });
 });

@@ -52,7 +52,7 @@ export async function measurePsi(url: string, key: string | undefined, formFacto
   api.searchParams.set("strategy", formFactor);
   if (key) api.searchParams.set("key", key);
   const res = await fetch(api);
-  const body = (await res.json()) as any;
+  const body = (await res.json()) as PsiResponse;
   if (!res.ok) throw new Error(`PageSpeed Insights: ${body?.error?.message ?? res.status}`);
 
   const exp = body.loadingExperience?.metrics ? body.loadingExperience : body.originLoadingExperience;
@@ -66,4 +66,17 @@ export async function measurePsi(url: string, key: string | undefined, formFacto
     }
   }
   return { lhr: body.lighthouseResult as LHR, field };
+}
+
+interface CruxExperience {
+  id?: string;
+  metrics?: Record<string, { percentile?: number } | undefined>;
+}
+
+/** The parts of a PageSpeed Insights v5 response this tool reads. */
+interface PsiResponse {
+  error?: { message?: string };
+  lighthouseResult?: unknown;
+  loadingExperience?: CruxExperience;
+  originLoadingExperience?: CruxExperience;
 }
