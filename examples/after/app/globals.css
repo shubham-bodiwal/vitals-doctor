@@ -1,0 +1,8 @@
+body { margin: 0; color: #1d1d1b; background: #faf7f2; }
+header { padding: 20px 24px; font-weight: 700; }
+.hero img { display: block; width: 100%; height: auto; }
+/* Fix 2b: reserve the banner's space up front so it never pushes content. */
+.promo-slot { min-height: 50px; }
+.promo { background: #0f3d3e; color: #fff; padding: 14px 24px; line-height: 22px; }
+.copy { padding: 24px; max-width: 60ch; line-height: 1.6; }
+h1 { font-size: 2rem; margin: 24px; }

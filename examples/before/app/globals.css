@@ -1,0 +1,18 @@
+/* Classic mistake 4: self-hosted font with no font-display and no preload.
+   Text stays invisible until the font arrives (FOIT). */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+}
+body { margin: 0; font-family: "Inter", sans-serif; color: #1d1d1b; background: #faf7f2; }
+header { padding: 20px 24px; font-weight: 700; }
+.hero img { display: block; width: 100%; height: auto; }
+.promo { background: #0f3d3e; color: #fff; padding: 14px 24px; }
+.copy { padding: 24px; max-width: 60ch; line-height: 1.6; }
+h1 { font-size: 2rem; margin: 24px; }

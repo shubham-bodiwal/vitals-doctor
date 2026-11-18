@@ -1,0 +1,939 @@
+{
+ "lighthouseVersion": "13.6.0",
+ "requestedUrl": "http://localhost:3101/",
+ "finalDisplayedUrl": "http://localhost:3101/",
+ "fetchTime": "2026-11-18T05:24:28.122Z",
+ "configSettings": {
+  "formFactor": "mobile",
+  "throttlingMethod": "simulate"
+ },
+ "categories": {
+  "performance": {
+   "score": 0.6
+  }
+ },
+ "audits": {
+  "first-contentful-paint": {
+   "id": "first-contentful-paint",
+   "title": "First Contentful Paint",
+   "score": 0.74,
+   "scoreDisplayMode": "numeric",
+   "numericValue": 2305.4935,
+   "displayValue": "2.3 s"
+  },
+  "largest-contentful-paint": {
+   "id": "largest-contentful-paint",
+   "title": "Largest Contentful Paint",
+   "score": 0,
+   "scoreDisplayMode": "numeric",
+   "numericValue": 9604.4935,
+   "displayValue": "9.6 s"
+  },
+  "total-blocking-time": {
+   "id": "total-blocking-time",
+   "title": "Total Blocking Time",
+   "score": 1,
+   "scoreDisplayMode": "numeric",
+   "numericValue": 30,
+   "displayValue": "30 ms"
+  },
+  "cumulative-layout-shift": {
+   "id": "cumulative-layout-shift",
+   "title": "Cumulative Layout Shift",
+   "score": 0.5,
+   "scoreDisplayMode": "numeric",
+   "numericValue": 0.24616913663172704,
+   "displayValue": "0.246",
+   "details": {
+    "type": "debugdata",
+    "items": [
+     {
+      "cumulativeLayoutShiftMainFrame": 0.24616913663172704,
+      "newEngineResultDiffered": false
+     }
+    ]
+   }
+  },
+  "speed-index": {
+   "id": "speed-index",
+   "title": "Speed Index",
+   "score": 0.99,
+   "scoreDisplayMode": "numeric",
+   "numericValue": 2305.4935,
+   "displayValue": "2.3 s"
+  },
+  "server-response-time": {
+   "id": "server-response-time",
+   "title": "Initial server response time was short",
+   "score": 1,
+   "scoreDisplayMode": "metricSavings",
+   "numericValue": 2,
+   "displayValue": "Root document took 0 ms",
+   "metricSavings": {
+    "FCP": 0,
+    "LCP": 0
+   },
+   "details": {
+    "type": "opportunity",
+    "headings": [
+     {
+      "key": "url",
+      "valueType": "url",
+      "label": "URL"
+     },
+     {
+      "key": "responseTime",
+      "valueType": "timespanMs",
+      "label": "Time Spent"
+     }
+    ],
+    "items": [
+     {
+      "url": "http://localhost:3101/",
+      "responseTime": 2
+     }
+    ],
+    "overallSavingsMs": 0
+   }
+  },
+  "metrics": {
+   "id": "metrics",
+   "title": "Metrics",
+   "score": 1,
+   "scoreDisplayMode": "informative",
+   "numericValue": 9604,
+   "details": {
+    "type": "debugdata",
+    "items": [
+     {
+      "firstContentfulPaint": 2305,
+      "largestContentfulPaint": 9604,
+      "interactive": 9604,
+      "speedIndex": 2305,
+      "totalBlockingTime": 30,
+      "maxPotentialFID": 80,
+      "cumulativeLayoutShift": 0.24616913663172704,
+      "cumulativeLayoutShiftMainFrame": 0.24616913663172704,
+      "lcpLoadDelay": 8065,
+      "lcpLoadDuration": 195,
+      "timeToFirstByte": 452,
+      "observedTimeOrigin": 0,
+      "observedTimeOriginTs": 403169758730,
+      "observedNavigationStart": 0,
+      "observedNavigationStartTs": 403169758730,
+      "observedFirstPaint": 381,
+      "observedFirstPaintTs": 403170139230,
+      "observedFirstContentfulPaint": 381,
+      "observedFirstContentfulPaintTs": 403170139230,
+      "observedFirstContentfulPaintAllFrames": 381,
+      "observedFirstContentfulPaintAllFramesTs": 403170139230,
+      "observedLargestContentfulPaint": 428,
+      "observedLargestContentfulPaintTs": 403170186701,
+      "observedLargestContentfulPaintAllFrames": 428,
+      "observedLargestContentfulPaintAllFramesTs": 403170186701,
+      "observedTraceEnd": 2733,
+      "observedTraceEndTs": 403172491890,
+      "observedLoad": 413,
+      "observedLoadTs": 403170171700,
+      "observedDomContentLoaded": 383,
+      "observedDomContentLoadedTs": 403170141849,
+      "observedCumulativeLayoutShift": 0.24616913663172704,
+      "observedCumulativeLayoutShiftMainFrame": 0.24616913663172704,
+      "observedFirstVisualChange": 380,
+      "observedFirstVisualChangeTs": 403170138730,
+      "observedLastVisualChange": 1218,
+      "observedLastVisualChangeTs": 403170976730,
+      "observedSpeedIndex": 507,
+      "observedSpeedIndexTs": 403170265240
+     },
+     {
+      "lcpInvalidated": false
+     }
+    ]
+   }
+  },
+  "lcp-breakdown-insight": {
+   "id": "lcp-breakdown-insight",
+   "title": "LCP breakdown",
+   "score": 1,
+   "scoreDisplayMode": "informative",
+   "metricSavings": {
+    "LCP": 0
+   },
+   "details": {
+    "type": "list",
+    "items": [
+     {
+      "type": "table",
+      "headings": [
+       {
+        "key": "label",
+        "valueType": "text",
+        "label": "Subpart"
+       },
+       {
+        "key": "duration",
+        "valueType": "ms",
+        "label": "Duration"
+       }
+      ],
+      "items": [
+       {
+        "subpart": "timeToFirstByte",
+        "label": "Time to first byte",
+        "duration": 3.148
+       },
+       {
+        "subpart": "resourceLoadDelay",
+        "label": "Resource load delay",
+        "duration": 376.258
+       },
+       {
+        "subpart": "resourceLoadDuration",
+        "label": "Resource load duration",
+        "duration": 8.818
+       },
+       {
+        "subpart": "elementRenderDelay",
+        "label": "Element render delay",
+        "duration": 39.747
+       }
+      ]
+     },
+     {
+      "type": "node",
+      "lhId": "page-0-IMG",
+      "path": "1,HTML,1,BODY,1,MAIN,3,DIV,0,IMG",
+      "selector": "body > main > div.hero > img",
+      "boundingRect": {
+       "top": 273,
+       "bottom": 505,
+       "left": 0,
+       "right": 412,
+       "width": 412,
+       "height": 232
+      },
+      "snippet": "<img src=\"/hero.jpg\" alt=\"Loaves cooling on a rack\" loading=\"lazy\">",
+      "nodeLabel": "Loaves cooling on a rack"
+     }
+    ]
+   }
+  },
+  "lcp-discovery-insight": {
+   "id": "lcp-discovery-insight",
+   "title": "LCP request discovery",
+   "score": 0,
+   "scoreDisplayMode": "numeric",
+   "numericValue": 0,
+   "metricSavings": {
+    "LCP": 0
+   },
+   "details": {
+    "type": "list",
+    "items": [
+     {
+      "type": "checklist",
+      "items": {
+       "priorityHinted": {
+        "label": "fetchpriority=high should be applied",
+        "value": false
+       },
+       "requestDiscoverable": {
+        "label": "Request is discoverable in initial document",
+        "value": true
+       },
+       "eagerlyLoaded": {
+        "label": "LCP resources shouldn’t use loading=lazy",
+        "value": false
+       }
+      }
+     },
+     {
+      "type": "node",
+      "lhId": "page-0-IMG",
+      "path": "1,HTML,1,BODY,1,MAIN,3,DIV,0,IMG",
+      "selector": "body > main > div.hero > img",
+      "boundingRect": {
+       "top": 273,
+       "bottom": 505,
+       "left": 0,
+       "right": 412,
+       "width": 412,
+       "height": 232
+      },
+      "snippet": "<img src=\"/hero.jpg\" alt=\"Loaves cooling on a rack\" loading=\"lazy\">",
+      "nodeLabel": "Loaves cooling on a rack"
+     }
+    ]
+   }
+  },
+  "image-delivery-insight": {
+   "id": "image-delivery-insight",
+   "title": "Improve image delivery",
+   "score": 0,
+   "scoreDisplayMode": "metricSavings",
+   "numericValue": 1476695,
+   "displayValue": "Est savings of 1,442 KiB",
+   "metricSavings": {
+    "FCP": 0,
+    "LCP": 7200
+   },
+   "details": {
+    "type": "table",
+    "headings": [
+     {
+      "key": "node",
+      "valueType": "node",
+      "label": ""
+     },
+     {
+      "key": "url",
+      "valueType": "url",
+      "label": "URL",
+      "subItemsHeading": {
+       "key": "reason",
+       "valueType": "text"
+      }
+     },
+     {
+      "key": "totalBytes",
+      "valueType": "bytes",
+      "label": "Resource Size"
+     },
+     {
+      "key": "wastedBytes",
+      "valueType": "bytes",
+      "label": "Est Savings",
+      "subItemsHeading": {
+       "key": "wastedBytes",
+       "valueType": "bytes"
+      }
+     }
+    ],
+    "items": [
+     {
+      "node": {
+       "type": "node",
+       "lhId": "page-0-IMG",
+       "path": "1,HTML,1,BODY,1,MAIN,3,DIV,0,IMG",
+       "selector": "body > main > div.hero > img",
+       "boundingRect": {
+        "top": 273,
+        "bottom": 505,
+        "left": 0,
+        "right": 412,
+        "width": 412,
+        "height": 232
+       },
+       "snippet": "<img src=\"/hero.jpg\" alt=\"Loaves cooling on a rack\" loading=\"lazy\">",
+       "nodeLabel": "Loaves cooling on a rack"
+      },
+      "url": "http://localhost:3101/hero.jpg",
+      "totalBytes": 1492608,
+      "wastedBytes": 1476695,
+      "subItems": {
+       "type": "subitems",
+       "items": [
+        {
+         "reason": "Using a modern image format (WebP, AVIF) or increasing the image compression could improve this image’s download size",
+         "wastedBytes": 952608
+        },
+        {
+         "reason": "This image file is larger than it needs to be (2400x1350) for its displayed dimensions (412x232). Use responsive images to reduce the image download size.",
+         "wastedBytes": 1448622
+        }
+       ]
+      }
+     }
+    ],
+    "debugData": {
+     "type": "debugdata",
+     "wastedBytes": 1476695
+    }
+   }
+  },
+  "render-blocking-insight": {
+   "id": "render-blocking-insight",
+   "title": "Render-blocking requests",
+   "score": 0,
+   "scoreDisplayMode": "metricSavings",
+   "numericValue": 1688,
+   "displayValue": "Est savings of 1,690 ms",
+   "metricSavings": {
+    "FCP": 1700,
+    "LCP": 0
+   },
+   "details": {
+    "type": "table",
+    "headings": [
+     {
+      "key": "url",
+      "valueType": "url",
+      "label": "URL"
+     },
+     {
+      "key": "totalBytes",
+      "valueType": "bytes",
+      "label": "Transfer Size"
+     },
+     {
+      "key": "wastedMs",
+      "valueType": "timespanMs",
+      "label": "Duration"
+     }
+    ],
+    "items": [
+     {
+      "url": "http://localhost:3101/_next/static/chunks/162k1vv3w9phm.css",
+      "totalBytes": 843,
+      "wastedMs": 152
+     },
+     {
+      "url": "http://localhost:3101/vendor/widget.js",
+      "totalBytes": 630,
+      "wastedMs": 302
+     }
+    ]
+   }
+  },
+  "cls-culprits-insight": {
+   "id": "cls-culprits-insight",
+   "title": "Layout shift culprits",
+   "score": 0,
+   "scoreDisplayMode": "numeric",
+   "metricSavings": {
+    "CLS": 0
+   },
+   "details": {
+    "type": "list",
+    "items": [
+     {
+      "type": "table",
+      "headings": [
+       {
+        "key": "node",
+        "valueType": "node",
+        "subItemsHeading": {
+         "key": "extra"
+        },
+        "label": "Element"
+       },
+       {
+        "key": "score",
+        "valueType": "numeric",
+        "subItemsHeading": {
+         "key": "cause",
+         "valueType": "text"
+        },
+        "granularity": 0.001,
+        "label": "Layout shift score"
+       }
+      ],
+      "items": [
+       {
+        "node": {
+         "type": "text",
+         "value": "Total"
+        },
+        "score": 0.24616913663172704
+       },
+       {
+        "node": {
+         "type": "node",
+         "lhId": "page-1-SECTION",
+         "path": "1,HTML,1,BODY,1,MAIN,4,SECTION",
+         "selector": "body > main > section.copy",
+         "boundingRect": {
+          "top": 505,
+          "bottom": 817,
+          "left": 0,
+          "right": 412,
+          "width": 412,
+          "height": 312
+         },
+         "snippet": "<section class=\"copy\">",
+         "nodeLabel": "Fresh bread, every morning\n\nWe bake in small batches from 4am so the first loaf…"
+        },
+        "score": 0.1953880610456661,
+        "subItems": {
+         "type": "subitems",
+         "items": [
+          {
+           "extra": {
+            "type": "node",
+            "lhId": "page-0-IMG",
+            "path": "1,HTML,1,BODY,1,MAIN,3,DIV,0,IMG",
+            "selector": "body > main > div.hero > img",
+            "boundingRect": {
+             "top": 273,
+             "bottom": 505,
+             "left": 0,
+             "right": 412,
+             "width": 412,
+             "height": 232
+            },
+            "snippet": "<img src=\"/hero.jpg\" alt=\"Loaves cooling on a rack\" loading=\"lazy\">",
+            "nodeLabel": "Loaves cooling on a rack"
+           },
+           "cause": "Unsized image element"
+          },
+          {
+           "extra": {
+            "type": "url",
+            "value": "http://localhost:3101/fonts/inter-latin-400-normal.woff2"
+           },
+           "cause": "Web font"
+          },
+          {
+           "extra": {
+            "type": "url",
+            "value": "http://localhost:3101/fonts/inter-latin-700-normal.woff2"
+           },
+           "cause": "Web font"
+          }
+         ]
+        }
+       },
+       {
+        "node": {
+         "type": "node",
+         "lhId": "page-1-SECTION",
+         "path": "1,HTML,1,BODY,1,MAIN,4,SECTION",
+         "selector": "body > main > section.copy",
+         "boundingRect": {
+          "top": 505,
+          "bottom": 817,
+          "left": 0,
+          "right": 412,
+          "width": 412,
+          "height": 312
+         },
+         "snippet": "<section class=\"copy\">",
+         "nodeLabel": "Fresh bread, every morning\n\nWe bake in small batches from 4am so the first loaf…"
+        },
+        "score": 0.05078107558606094,
+        "subItems": {
+         "type": "subitems",
+         "items": [
+          {
+           "extra": {
+            "type": "node",
+            "lhId": "page-0-IMG",
+            "path": "1,HTML,1,BODY,1,MAIN,3,DIV,0,IMG",
+            "selector": "body > main > div.hero > img",
+            "boundingRect": {
+             "top": 273,
+             "bottom": 505,
+             "left": 0,
+             "right": 412,
+             "width": 412,
+             "height": 232
+            },
+            "snippet": "<img src=\"/hero.jpg\" alt=\"Loaves cooling on a rack\" loading=\"lazy\">",
+            "nodeLabel": "Loaves cooling on a rack"
+           },
+           "cause": "Unsized image element"
+          }
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "unsized-images": {
+   "id": "unsized-images",
+   "title": "Image elements do not have explicit `width` and `height`",
+   "score": 0.5,
+   "scoreDisplayMode": "metricSavings",
+   "metricSavings": {
+    "CLS": 0
+   },
+   "details": {
+    "type": "table",
+    "headings": [
+     {
+      "key": "node",
+      "valueType": "node",
+      "label": ""
+     },
+     {
+      "key": "url",
+      "valueType": "url",
+      "label": "URL"
+     }
+    ],
+    "items": [
+     {
+      "url": "http://localhost:3101/hero.jpg",
+      "node": {
+       "type": "node",
+       "lhId": "1-0-IMG",
+       "path": "1,HTML,1,BODY,1,MAIN,3,DIV,0,IMG",
+       "selector": "body > main > div.hero > img",
+       "boundingRect": {
+        "top": 273,
+        "bottom": 505,
+        "left": 0,
+        "right": 412,
+        "width": 412,
+        "height": 232
+       },
+       "snippet": "<img src=\"/hero.jpg\" alt=\"Loaves cooling on a rack\" loading=\"lazy\">",
+       "nodeLabel": "Loaves cooling on a rack"
+      }
+     }
+    ]
+   }
+  },
+  "long-tasks": {
+   "id": "long-tasks",
+   "title": "Avoid long main-thread tasks",
+   "score": 1,
+   "scoreDisplayMode": "informative",
+   "displayValue": "2 long tasks found",
+   "metricSavings": {
+    "TBT": 50
+   },
+   "details": {
+    "type": "table",
+    "headings": [
+     {
+      "key": "url",
+      "valueType": "url",
+      "label": "URL"
+     },
+     {
+      "key": "startTime",
+      "valueType": "ms",
+      "granularity": 1,
+      "label": "Start Time"
+     },
+     {
+      "key": "duration",
+      "valueType": "ms",
+      "granularity": 1,
+      "label": "Duration"
+     }
+    ],
+    "items": [
+     {
+      "url": "http://localhost:3101/vendor/widget.js",
+      "duration": 1401,
+      "startTime": 904.4935
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/0j2ic9g5t3nqd.js",
+      "duration": 80,
+      "startTime": 2556.74025
+     }
+    ],
+    "sortedBy": [
+     "duration"
+    ],
+    "skipSumming": [
+     "startTime"
+    ],
+    "debugData": {
+     "type": "debugdata",
+     "urls": [
+      "http://localhost:3101/vendor/widget.js",
+      "http://localhost:3101/_next/static/chunks/0j2ic9g5t3nqd.js"
+     ],
+     "tasks": [
+      {
+       "urlIndex": 0,
+       "startTime": 904.5,
+       "duration": 1401,
+       "other": 1401,
+       "scriptEvaluation": 0
+      },
+      {
+       "urlIndex": 1,
+       "startTime": 2556.7,
+       "duration": 80,
+       "other": 80,
+       "scriptEvaluation": 0
+      }
+     ]
+    }
+   }
+  },
+  "bootup-time": {
+   "id": "bootup-time",
+   "title": "Reduce JavaScript execution time",
+   "score": 0,
+   "scoreDisplayMode": "metricSavings",
+   "numericValue": 1521.8039999999996,
+   "displayValue": "1.5 s",
+   "metricSavings": {
+    "TBT": 50
+   },
+   "details": {
+    "type": "table",
+    "headings": [
+     {
+      "key": "url",
+      "valueType": "url",
+      "label": "URL"
+     },
+     {
+      "key": "total",
+      "granularity": 1,
+      "valueType": "ms",
+      "label": "Total CPU Time"
+     },
+     {
+      "key": "scripting",
+      "granularity": 1,
+      "valueType": "ms",
+      "label": "Script Evaluation"
+     },
+     {
+      "key": "scriptParseCompile",
+      "granularity": 1,
+      "valueType": "ms",
+      "label": "Script Parse"
+     }
+    ],
+    "items": [
+     {
+      "url": "http://localhost:3101/vendor/widget.js",
+      "total": 1401.0559999999994,
+      "scripting": 1399.4799999999993,
+      "scriptParseCompile": 0.192
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/0j2ic9g5t3nqd.js",
+      "total": 114.49600000000028,
+      "scripting": 95.88800000000028,
+      "scriptParseCompile": 13.048
+     },
+     {
+      "url": "Unattributable",
+      "total": 79.41599999999988,
+      "scripting": 3.0440000000000005,
+      "scriptParseCompile": 0
+     },
+     {
+      "url": "http://localhost:3101/",
+      "total": 53.632,
+      "scripting": 7.3879999999999955,
+      "scriptParseCompile": 2.7640000000000002
+     }
+    ],
+    "summary": {
+     "wastedMs": 1521.8039999999996
+    },
+    "sortedBy": [
+     "total"
+    ]
+   }
+  },
+  "unused-javascript": {
+   "id": "unused-javascript",
+   "title": "Reduce unused JavaScript",
+   "score": 0,
+   "scoreDisplayMode": "metricSavings",
+   "numericValue": 300,
+   "displayValue": "Est savings of 55 KiB",
+   "metricSavings": {
+    "FCP": 0,
+    "LCP": 300
+   },
+   "details": {
+    "type": "opportunity",
+    "headings": [
+     {
+      "key": "url",
+      "valueType": "url",
+      "subItemsHeading": {
+       "key": "source",
+       "valueType": "code"
+      },
+      "label": "URL"
+     },
+     {
+      "key": "totalBytes",
+      "valueType": "bytes",
+      "subItemsHeading": {
+       "key": "sourceBytes"
+      },
+      "label": "Transfer Size"
+     },
+     {
+      "key": "wastedBytes",
+      "valueType": "bytes",
+      "subItemsHeading": {
+       "key": "sourceWastedBytes"
+      },
+      "label": "Est Savings"
+     }
+    ],
+    "items": [
+     {
+      "url": "http://localhost:3101/_next/static/chunks/0j2ic9g5t3nqd.js",
+      "totalBytes": 71816,
+      "wastedBytes": 30087,
+      "wastedPercent": 41.89473867854168
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/20_y9o4ft_1xi.js",
+      "totalBytes": 49804,
+      "wastedBytes": 26081,
+      "wastedPercent": 52.36708250789741
+     }
+    ],
+    "overallSavingsMs": 300,
+    "overallSavingsBytes": 56168,
+    "sortedBy": [
+     "wastedBytes"
+    ],
+    "debugData": {
+     "type": "debugdata",
+     "metricSavings": {
+      "FCP": 0,
+      "LCP": 300
+     }
+    }
+   }
+  },
+  "font-display-insight": {
+   "id": "font-display-insight",
+   "title": "Font display",
+   "score": 1,
+   "scoreDisplayMode": "metricSavings",
+   "numericValue": 0,
+   "metricSavings": {
+    "INP": 0
+   },
+   "details": {
+    "type": "table",
+    "headings": [
+     {
+      "key": "url",
+      "valueType": "url",
+      "label": "URL"
+     },
+     {
+      "key": "wastedMs",
+      "valueType": "ms",
+      "label": "Est Savings"
+     }
+    ],
+    "items": [],
+    "skipSumming": [
+     "wastedMs"
+    ]
+   }
+  },
+  "third-parties-insight": {
+   "id": "third-parties-insight",
+   "title": "3rd parties",
+   "score": 1,
+   "scoreDisplayMode": "numeric",
+   "details": {
+    "type": "table",
+    "headings": [
+     {
+      "key": "entity",
+      "valueType": "text",
+      "label": "3rd party",
+      "subItemsHeading": {
+       "key": "url",
+       "valueType": "url"
+      }
+     },
+     {
+      "key": "transferSize",
+      "granularity": 1,
+      "valueType": "bytes",
+      "label": "Transfer size",
+      "subItemsHeading": {
+       "key": "transferSize"
+      }
+     },
+     {
+      "key": "mainThreadTime",
+      "granularity": 1,
+      "valueType": "ms",
+      "label": "Main thread time",
+      "subItemsHeading": {
+       "key": "mainThreadTime"
+      }
+     }
+    ],
+    "items": []
+   }
+  },
+  "total-byte-weight": {
+   "id": "total-byte-weight",
+   "title": "Avoids enormous network payloads",
+   "score": 1,
+   "scoreDisplayMode": "metricSavings",
+   "numericValue": 1683685,
+   "displayValue": "Total size was 1,644 KiB",
+   "details": {
+    "type": "table",
+    "headings": [
+     {
+      "key": "url",
+      "valueType": "url",
+      "label": "URL"
+     },
+     {
+      "key": "totalBytes",
+      "valueType": "bytes",
+      "label": "Transfer Size"
+     }
+    ],
+    "items": [
+     {
+      "url": "http://localhost:3101/hero.jpg",
+      "totalBytes": 1492894
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/0j2ic9g5t3nqd.js",
+      "totalBytes": 72196
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/20_y9o4ft_1xi.js",
+      "totalBytes": 50184
+     },
+     {
+      "url": "http://localhost:3101/fonts/inter-latin-700-normal.woff2",
+      "totalBytes": 24638
+     },
+     {
+      "url": "http://localhost:3101/fonts/inter-latin-400-normal.woff2",
+      "totalBytes": 23946
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/2r21qk-o2w5kk.js",
+      "totalBytes": 6407
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/turbopack-2u1d16houkiyo.js",
+      "totalBytes": 4301
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/0ul1ag6tv2m2d.js",
+      "totalBytes": 3910
+     },
+     {
+      "url": "http://localhost:3101/",
+      "totalBytes": 2682
+     },
+     {
+      "url": "http://localhost:3101/_next/static/chunks/162k1vv3w9phm.css",
+      "totalBytes": 843
+     }
+    ],
+    "sortedBy": [
+     "totalBytes"
+    ]
+   }
+  }
+ }
+}
